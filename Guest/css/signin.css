@@ -1,0 +1,26 @@
+.body {
+  margin: 0 auto;
+  margin-top: 65px;
+  margin-bottom: 10px;
+  width: 300px;
+  background: #03899c;
+  padding: 10px 30px;
+  border-radius: 10px;
+  overflow: auto;
+}
+
+label {
+  color: white;
+  margin-top: 5px;
+}
+
+button {
+  border-radius: 5px;
+  margin-top: 10px !important;
+  float: right;
+}
+
+h4.title {
+  color: white;
+  font-weight: bold;
+}

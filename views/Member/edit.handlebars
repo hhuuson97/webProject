@@ -1,0 +1,41 @@
+<form action="#" id="regForm">
+    <h4 class="title">Sửa tài khoản</h4>
+    <div class="tab">
+        <label for="surname">Họ tên</label>
+        <input type="text" class="form-control" name="surname" id="surname" placeholder="Nguyễn Văn" oninput="this.className = 'form-control'"
+            value="Ho Huu" required>
+        <br>
+        <input type="text" class="form-control" name="lastname" id="lastname" placeholder="A" oninput="this.className = 'form-control'"
+            value="Son" required>
+    </div>
+    <div class="tab">
+        <label for="username">Tài khoản</label>
+        <input type="text" class="form-control" name="username" id="username" placeholder="Username" oninput="this.className = 'form-control'"
+            value="hhuuson97" required>
+        <label for="password">Mật khẩu</label>
+        <input type="password" class="form-control" name="password" id="password" placeholder="Password" oninput="this.className = 'form-control'"
+            value="123456" required>
+        <br>
+        <input type="password" class="form-control" name="comfirmpassword" id="comfirmpassword" placeholder="Password" oninput="this.className = 'form-control'"
+            value="123456" required>
+    </div>
+    <div class="tab">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" name="email" id="email" placeholder="abc@gmail.com" oninput="this.className = 'form-control'"
+            value="hhuuson97@gmail.com" required>
+        <label for="phone">Điện thoại</label>
+        <input type="tel" class="form-control" name="phone" id="phone" placeholder="0123456789" oninput="this.className = 'form-control'"
+            value="01237149335" required>
+        <label for="local">Địa chỉ</label>
+        <input type="text" class="form-control" name="local" id="local" placeholder="HCM" oninput="this.className = 'form-control'"
+            value="TP.HCM" required>
+    </div>
+    <div style="overflow:auto;">
+        <div style="float:right;">
+            <button type="submit">Cập nhật</button>
+        </div>
+    </div>
+</form>
+
+<link rel="stylesheet" href="css/edit.css">
+<script src="js/edit.js"></script>

@@ -1,0 +1,23 @@
+.body {
+  margin-top: 65px;
+  margin-bottom: 10px;
+}
+
+.info {
+  margin: 10px 50px;
+  overflow: auto;
+  background: #03899c;
+  color: white;
+  font-size: 20px;
+}
+
+.avatar,
+p.info {
+  float: left;
+}
+
+.avatar {
+  height: 160px;
+  margin: 10px;
+  border-radius: 80px;
+}

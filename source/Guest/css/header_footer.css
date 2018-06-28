@@ -1,0 +1,67 @@
+.containerHeader {
+  width: 80%;
+  margin: auto;
+  overflow: auto;
+}
+
+header {
+  background: #03899c;
+  min-height: 55px;
+  color: #fff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+header a {
+  color: #fff;
+}
+
+.logo {
+  float: left;
+  width: 100px;
+  margin-top: 10px;
+}
+
+nav {
+  float: right;
+  width: 80%;
+}
+
+nav ul {
+  float: right;
+  margin-bottom: 0;
+}
+
+nav li {
+  list-style: none;
+  float: left;
+  padding: 10px 10px;
+  text-align: center;
+}
+
+nav a {
+  color: #fff;
+  vertical-align: middle;
+  line-height: 35px;
+}
+nav a:focus,
+nav a:hover {
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none !important;
+}
+
+nav .active {
+  font-weight: bold;
+  border-bottom: 3px solid;
+}
+
+footer {
+  background: #03899c;
+  height: 55px;
+  color: #fff;
+  text-align: center;
+  padding-top: 10px;
+}

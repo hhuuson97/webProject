@@ -1,0 +1,43 @@
+.body {
+  margin-top: 55px;
+  margin-bottom: 10px;
+}
+
+#title {
+  color: #03899c;
+  padding: 30px 0 0 50px;
+}
+
+table {
+  margin: 30px 0 0 50px;
+  width: 80%;
+  overflow: auto;
+  color: #03899c;
+}
+
+#name {
+  font-size: 20px;
+}
+
+.item {
+  font-size: 16px;
+  line-height: 40px;
+}
+
+#count {
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 40px;
+}
+
+button.submit {
+  color: black;
+}
+
+a.minus {
+  padding-right: 10px;
+}
+
+a.plus {
+  padding-left: 10px;
+}

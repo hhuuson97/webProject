@@ -1,0 +1,156 @@
+<div class="row">
+    <div class="col-6" id="design">
+        <canvas width="500" height="500" id="canvas"></canvas>
+    </div>
+    <div class="col-6 ">
+        <section class="container py-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Chỉnh sửa</h2>
+                    <ul id="tabsJustified" class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a href="" data-target="#home1" data-toggle="tab" class="nav-link small text-uppercase active">Màu áo</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" data-target="#profile1" data-toggle="tab" class="nav-link small text-uppercase">Thêm chữ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" data-target="#messages1" data-toggle="tab" class="nav-link small text-uppercase">Thêm hình</a>
+                        </li>
+                    </ul>
+                    <br>
+                    <div id="tabsJustifiedContent" class="tab-content">
+                        <div id="home1" class="tab-pane fade active show">
+                        </div>
+                        <div id="profile1" class="tab-pane fade">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    Thêm chữ
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="color" id="textColor" name="favcolor" value="#ff0000">
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" id="new_text" class="form-control" placeholder="Nội dung chữ">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="button" id="btn_add_new" class="btn btn-primary" value="Add New">
+                                </div>
+                            </div>
+                            <h4>Chữ đã thêm</h4>
+                            <ul id="layers" class="list-group"></ul>
+                        </div>
+                        <div id="messages1" class="tab-pane fade">
+                            <input type="file" id="uploadedImg" />
+                            <ul id="imagelayers" class="list-group"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <button type="button" class="btn btn-primary">Hoàn tất</button>
+    </div>
+</div>
+
+<script>
+    var designs = ["design0.jpg", "design1.jpg", "design2.jpg", "design3.jpg", "design4.jpg", "design5.jpg", "design6.jpg", "design7.jpg"]
+    function addDesigns() {
+        var html = "";
+        for (var design of designs) {
+            html += `<img src="img/design/${design}" width="86px" height="90px" onClick="changeDesign('${design}')"/>`
+            document.getElementById("home1").innerHTML = html
+        }
+    }
+
+    function changeDesign(design) {
+        fabric.Image.fromURL('img/design/' + design, function (oImg) {
+            oImg.scale(0.5).set('flipX', true);
+            canvas.setBackgroundImage(oImg, canvas.renderAll.bind(canvas));
+        });
+    }
+
+    addDesigns()
+
+    var canvas = new fabric.Canvas("canvas");
+    canvas.backgroundColor = '#fff';
+    canvas.renderAll();
+    fabric.Image.fromURL('img/design/design1.jpg', function (oImg) {
+        oImg.scale(0.5).set('flipX', true);
+        canvas.setBackgroundImage(oImg, canvas.renderAll.bind(canvas));
+    });
+    window.onload = () => {
+        document.getElementById('uploadedImg').onchange = function handleImage(e) {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                var imgObj = new Image();
+                imgObj.src = event.target.result;
+                imgObj.onload = function () {
+                    var image = new fabric.Image(imgObj);
+                    image.set({
+                        angle: 0,
+                        padding: 10,
+                        cornersize: 10,
+                        height: 110,
+                        width: 110,
+                    });
+                    canvas.centerObject(image);
+                    canvas.add(image);
+                    canvas.renderAll();
+                    renderLayers();
+                    renderImageLayers()
+                }
+            }
+            reader.readAsDataURL(e.target.files[0]);
+        }
+    }
+
+    $('#bg_color').on('input', function () {
+        canvas.backgroundColor = $('#bg_color').val();
+        canvas.renderAll();
+    });
+    $('#btn_add_new').click(function (e) {
+        e.preventDefault();
+        if ($('#new_text').val() !== '') {
+            var newText = new fabric.IText($('#new_text').val(), {
+                fontFamily: "Arial",
+                left: 10,
+                top: 10,
+                fontSize: 20,
+                textAlign: "left",
+                fill: document.getElementById("textColor").value,
+            });
+            canvas.add(newText);
+            canvas.renderAll();
+            $('#new_text').val('');
+            renderLayers();
+            renderImageLayers()
+        }
+    });
+    function renderLayers() {
+        $("#layers").html("");
+        var layers = canvas.getObjects();
+        for (var i = 0; i < layers.length; i++) {
+            if (layers[i].text)
+                $('#layers').append('<li class="list-group-item">' + layers[i].text + '<a onClick="removeLayers(' + i + ')" class="btn btn-sm btn-warning pull-right">X</a></li>')
+        }
+    }
+    function removeLayers(index) {
+        var layers = canvas.getObjects();
+        canvas.remove(layers[index])
+        renderLayers();
+        renderImageLayers()
+    }
+    function renderImageLayers() {
+        $("#imagelayers").html("");
+        var layers = canvas.getObjects();
+        for (var i = 0; i < layers.length; i++) {
+            if (layers[i].type == "image") {
+                $('#imagelayers').append('<li class="list-group-item">Hình ' + i + '<a onClick="removeLayers(' + i + ')" class="btn btn-sm btn-warning pull-right">X</a></li>')
+            }
+        }
+    }
+    canvas.on('object:modified', function () {
+        renderImageLayers()
+        renderLayers();
+    });
+</script>

@@ -1,0 +1,26 @@
+<h3 id="title">
+    <i class="fa fa-arrow-right"></i> Các mẫu bán chạy</h3>
+<ul id="gallery">
+    {{#each best}}
+    <li>
+        <a href="detail.html?id={{id}}" data-desc={{info}}>
+            <img src={{link}}>
+        </a>
+    </li>
+    {{/each}}
+</ul>
+
+<h3 id="title">
+    <i class="fa fa-arrow-right"></i> Các mẫu mới </h3>
+<ul id="gallery">
+    {{#each new}}
+    <li>
+        <a href="detail.html?id={{id}}" data-desc={{info}}>
+            <img src={{link}}>
+        </a>
+    </li>
+    {{/each}}
+</ul>
+
+<script src="js/shop.js"></script>
+<link rel="stylesheet" href="css/shop.css">
