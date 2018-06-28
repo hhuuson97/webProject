@@ -1,0 +1,44 @@
+<form>
+    <h4 class="title">Đăng ký</h4>
+    <div class="tab">
+        <label for="surname">Họ tên</label>
+        <input type="text" class="form-control" name="name" id="name" placeholder="A" oninput="this.className = 'form-control'" required>
+    </div>
+    <div class="tab">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" name="email" id="email" placeholder="abc@gmail.com" oninput="this.className = 'form-control'"
+            required>
+        <label for="password">Mật khẩu</label>
+        <input type="password" class="form-control" name="password" id="password" placeholder="Password" oninput="this.className = 'form-control'"
+            required>
+        <br>
+        <input type="password" class="form-control" name="comfirmpassword" id="comfirmpassword" placeholder="Password" oninput="this.className = 'form-control'"
+            required>
+    </div>
+    <div class="tab">
+        <label for="phone">Điện thoại</label>
+        <input type="tel" class="form-control" name="phonenum" id="phonenum" placeholder="0123456789" oninput="this.className = 'form-control'"
+            required>
+        <label for="local">Địa chỉ</label>
+        <input type="text" class="form-control" name="address" id="address" placeholder="HCM" oninput="this.className = 'form-control'"
+            required>
+    </div>
+    {{!--
+    <div class="tab">
+        <img src="data:image/jpeg;base64,{{captcha}}" />
+        <input type="number" class="form-control" name="captcha" id="captcha" placeholder="" oninput="this.className = 'form-control'"
+            required>
+    </div> --}}
+    <div style="overflow:auto;">
+        <div class="g-recaptcha" data-sitekey="6LeDNmEUAAAAAPtoSkE4QtHAShjN1O66edraZdUC"></div>
+        <div style="float:right;">
+            <button type="button" id="login" onclick="signUp()">Đăng ky</button>
+            {{!--
+            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button> --}}
+        </div>
+    </div>
+</form>
+
+<link rel="stylesheet" href="css/signup.css">
+<script src='https://www.google.com/recaptcha/api.js'></script>
+<script src="js/signup.js"></script>

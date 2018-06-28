@@ -6,9 +6,15 @@ var csrf = require("csurf");
 var session = require("express-session");
 var bodyParser = require("body-parser");
 var captchapng = require("captchapng");
+var config = require("./config");
+var db = require("./db");
+var jwt = require("./jwt");
 var paypal = require("paypal-rest-sdk");
+var mongoose = require("mongoose");
 
 var csrfProtection = csrf();
+
+db.start(app);
 
 app.use(express.static("source"));
 
@@ -32,9 +38,9 @@ app.use(
   session({ secret: "secretCode", resave: false, saveUninitialized: false })
 );
 
-app.use(csrfProtection);
+// app.use(csrfProtection);
 
-app.get("/member/index.html", function(req, res) {
+app.get("/member", function(req, res) {
   res.render("Member/index", {
     page: "index.html",
     nav: constant.nav.member,
@@ -168,7 +174,7 @@ app.get("/member/history.html", function(req, res) {
   });
 });
 
-app.get("/member/detail.html", function(req, res) {
+app.get("/member/detail", function(req, res) {
   res.render("Member/detail", {
     page: "detail.html",
     nav: constant.nav.member
@@ -196,8 +202,8 @@ app.get("/member/aboutUs.html", function(req, res) {
   });
 });
 
-app.get("/guest/index.html", function(req, res) {
-  res.render("Guest/index", {
+app.get("/app", function(req, res) {
+  res.render("App/index", {
     page: "index.html",
     nav: constant.nav.guest,
     data: [
@@ -225,8 +231,8 @@ app.get("/guest/index.html", function(req, res) {
   });
 });
 
-app.get("/guest/shop.html", function(req, res) {
-  res.render("Guest/shop", {
+app.get("/app/shop", function(req, res) {
+  res.render("App/shop", {
     page: "shop.html",
     nav: constant.nav.guest,
     best: [
@@ -316,52 +322,77 @@ app.get("/guest/shop.html", function(req, res) {
   });
 });
 
-app.get("/guest/detail.html", function(req, res) {
-  res.render("Guest/detail", {
+app.use((req, res, next) => {
+  const token = req.params.token || req.body.token || "";
+  const verify = jwt.verify(token);
+  if (verify) {
+    req.user = verify;
+  }
+  if (req.user) {
+    const User = mongoose.model("User");
+    User.findOne({ _id: req.user._id }, (err, user) => {
+      if (user) {
+        if (user.isBan) {
+          return res.json({ banned: true });
+        } else return next();
+      } else return next();
+    });
+  } else return next();
+});
+
+app.get("/app/detail", function(req, res) {
+  res.render("App/detail", {
     page: "detail.html",
     nav: constant.nav.guest
   });
 });
 
-app.get("/guest/design.html", function(req, res) {
-  res.render("Guest/design", {
+app.get("/app/design", function(req, res) {
+  res.render("App/design", {
     page: "design.html",
     nav: constant.nav.guest
   });
 });
 
-app.get("/guest/cart.html", function(req, res) {
-  res.render("Guest/cart", {
+app.get("/app/cart", function(req, res) {
+  res.render("App/cart", {
     page: "cart.html",
     nav: constant.nav.guest
   });
 });
 
-app.get("/guest/aboutUs.html", function(req, res) {
-  res.render("Guest/aboutUs", {
+app.get("/app/aboutUs", function(req, res) {
+  res.render("App/aboutUs", {
     page: "aboutUs.html",
     nav: constant.nav.guest
   });
 });
 
-app.get("/guest/signin.html", function(req, res) {
-  res.render("Guest/signin", {
+app.get("/app/signin", function(req, res) {
+  res.render("App/signin", {
     page: "signin.html",
     nav: constant.nav.guest
   });
 });
 
-app.get("/guest/signup.html", function(req, res) {
+app.get("/app/profile", function(req, res) {
+  res.render("App/profile", {
+    page: "profile.html",
+    nav: constant.nav.guest
+  });
+});
+
+app.get("/app/signup", function(req, res) {
   var p = new captchapng(80, 30, parseInt(Math.random() * 9000 + 1000));
   p.color(0, 0, 0, 0);
   p.color(80, 80, 80, 255);
   var img = p.getBase64();
   var imgbase64 = new Buffer(img, "base64");
 
-  res.render("Guest/signup", {
+  res.render("App/signup", {
     page: "signup.html",
     nav: constant.nav.guest,
-    csrfToken: req.csrfToken(),
+    // csrfToken: req.csrfToken(),
     captcha: img
   });
 });
@@ -401,6 +432,6 @@ app.get("/admin/update.html", function(req, res) {
   });
 });
 
-var server = app.listen(8081, function() {
-  console.log("Server listening at port 8081");
+var server = app.listen(config.port, function() {
+  console.log("Server listening at port " + config.port);
 });

@@ -14,7 +14,7 @@ module.exports.nav = {
     },
     {
       link: "manager.html",
-      name: "Quản lý đơn hàng"
+      name: "Tài khoản"
     },
     {
       link: "statistics.html",
@@ -61,32 +61,36 @@ module.exports.nav = {
   ],
   guest: [
     {
-      link: "index.html",
+      link: "/app/",
       name: "Trang chủ"
     },
+    // {
+    //   // link: "design",
+    //   // name: "Thiết kế"
+    // },
     {
-      link: "design.html",
-      name: "Thiết kế"
-    },
-    {
-      link: "shop.html",
+      link: "shop",
       name: "Mua sắm"
     },
     {
-      link: "cart.html",
+      link: "cart",
       name: "Giỏ hàng"
     },
     {
-      link: "aboutUs.html",
+      link: "aboutUs",
       name: "Về chúng tôi"
-    },
-    {
-      link: "signup.html",
-      name: "Đăng ký"
-    },
-    {
-      link: "signin.html",
-      name: "Đăng nhập"
     }
+    // {
+    //   link: "signup",
+    //   name: "Đăng ký"
+    // },
+    // {
+    //   link: "signin",
+    //   name: "Đăng nhập"
+    // },
+    // {
+    //   link: "profile",
+    //   name: "Tài khoản"
+    // }
   ]
 };

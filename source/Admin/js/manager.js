@@ -1,26 +1,25 @@
-$(document).ready(function() {
-  // Get data from server
-  data = [
-    {
-      username: "NVA",
-      name: "Áo phông Angry Bird",
-      des: "size XL",
-      btime: "24/04/2018",
-      etime: "25/04/2018",
-      num: 2,
-      price: 100000
-    },
-    {
-      username: "ABC",
-      name: "Áo phông Hello Monday",
-      des: "size L",
-      btime: "24/04/2018",
-      etime: "Chưa giao",
-      num: 1,
-      price: 100000
-    }
-  ];
+getUsers();
 
+function getUsers() {
+  return $.get(apiUrl + "User/find", data => {
+    showUsers(data);
+  });
+}
+
+function ban(id, isBan) {
+  const body = {
+    _id: id,
+    token: getToken(),
+    isBan
+  };
+  return $.post("/BanUser", body, data => {
+    if (data.success) {
+      getUsers();
+    }
+  });
+}
+
+function showUsers(data = []) {
   function makePrice(value) {
     let p = " VND";
     while (value > 0) {
@@ -34,38 +33,32 @@ $(document).ready(function() {
     return p;
   }
 
+  $(".item").remove();
+
   for (i = 0; i < data.length; i++) {
     $("table tr:last").after(
       '<tr class="item">\
         <td>' +
-        data[i].username +
-        "</td>\
-        <td>" +
         data[i].name +
         "</td>\
         <td>" +
-        data[i].des +
+        data[i].address +
         "</td>\
           <td>" +
-        data[i].btime +
+        data[i].email +
         "</td>\
           <td>" +
-        data[i].etime +
-        "</td>\
-        <td>" +
-        data[i].num +
-        "</td>\
-        <td>" +
-        makePrice(data[i].price) +
-        "</td><td>" +
-        makePrice(data[i].price * data[i].num) +
-        "</td>\
-        <td>" +
-        "<a class='delete' href='#'><i class='fa fa-trash-alt' ondelete='$('table tr:eq(" +
-        (i + 1) +
-        ")').remove();'></a>" +
+        (!data[i].isBan ? "ACTIVE" : "BANNED") +
+        "</td>" +
+        "<td><button onclick='ban(" +
+        `"` +
+        data[i]._id +
+        `", ${!data[i].isBan}` +
+        ")' class='delete' href='#'>" +
+        (data[i].isBan ? "UNBAN" : "BAN") +
+        "</button>" +
         "</td>\
         </tr>"
     );
   }
-});
+}

@@ -1,40 +1,17 @@
-$(document).ready(function() {
-  // Get data from server
-  data = [
-    {
-      username: "NVA",
-      name: "Áo phông Angry Bird",
-      des: "size XL",
-      btime: "24/04/2018",
-      etime: "25/04/2018",
-      num: 2,
-      price: 100000
-    },
-    {
-      username: "ABC",
-      name: "Áo phông Hello Monday",
-      des: "size L",
-      btime: "24/04/2018",
-      etime: "Chưa giao",
-      num: 1,
-      price: 100000
-    }
-  ];
+function getOrders() {
+  $.get(apiUrl + "Order/find", data => {
+    showOrders(data);
+  });
+}
 
-  function makePrice(value) {
-    let p = " VND";
-    while (value > 0) {
-      let d = value % 1000;
-      value = Math.round(value / 1000);
-      if (d > 99) p = d + p;
-      else if (d > 9) p = "0" + d + p;
-      else p = "00" + d + p;
-      if (value > 0) p = "." + p;
-    }
-    return p;
-  }
+getOrders();
+
+function showOrders(data) {
+  // Get data from server
 
   for (i = 0; i < data.length; i++) {
+    const o = data[i];
+    console.log(o);
     $("table tr:last").after(
       '<tr class="item">\
       <td>' +
@@ -55,11 +32,11 @@ $(document).ready(function() {
       <td>" +
         data[i].num +
         "</td>\
-      <td>" +
-        makePrice(data[i].price) +
+      <td>$" +
+        o.product.price +
         "</td>\
-        <td>" +
-        makePrice(data[i].price * data[i].num) +
+        <td>$" +
+      o.product.price * o.num +
         "</td>\
         <td>" +
         "<a class='delete' href='#'><i class='fa fa-trash-alt' ondelete='$('table tr:eq(" +
@@ -69,4 +46,4 @@ $(document).ready(function() {
       </tr>"
     );
   }
-});
+}

@@ -17,6 +17,10 @@
 
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script src="/config.js"></script>
 </head>
 
 <body>
@@ -26,7 +30,7 @@
                 <img src="img/logo.png" alt="Logo" class="logo">
             </a>
             <nav>
-                <ul>
+                <ul id="navbar">
                     {{#each nav}} {{#if (eq ../page link)}}
                     <li class="active">
                         <a href="">{{name}}</a>
